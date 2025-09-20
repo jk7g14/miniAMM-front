@@ -91,7 +91,7 @@ export function useContracts() {
               await signer.getAddress()
             );
 
-            contractRunner = signer;
+            contractRunner = signer as unknown as BrowserProvider;
             hasSigner = true;
           } catch (error) {
             console.error('❌ Failed to create signer:', error);

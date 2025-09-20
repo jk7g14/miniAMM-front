@@ -16,7 +16,7 @@ import {
   token1InputAmountAtom,
 } from '@/app/atoms';
 import { formatTokenAmount, parseTokenAmount } from '@/app/utils/format';
-import { calculateMinimumAmount, getDeadline } from '@/app/utils/transactions';
+// Removed unused imports
 
 export function AddLiquidity() {
   const contracts = useContracts();
@@ -25,7 +25,7 @@ export function AddLiquidity() {
   const [walletBalances] = useAtom(walletBalancesAtom);
   const [poolState] = useAtom(poolStateAtom);
   const [allowances] = useAtom(allowancesAtom);
-  const slippage = 0.5; // Fixed 0.5% slippage
+  // const slippage = 0.5; // Fixed 0.5% slippage - unused for now
 
   const [token0Input, setToken0Input] = useAtom(token0InputAmountAtom);
   const [token1Input, setToken1Input] = useAtom(token1InputAmountAtom);
@@ -172,7 +172,7 @@ export function AddLiquidity() {
     await execute(
       async () => {
         // Get the signer from wallet provider
-        const signer = await contracts.walletProvider.getSigner();
+        const signer = await contracts.walletProvider!.getSigner();
 
         // Connect contract with signer for write operations
         const ammWithSigner = contracts.amm.connect(signer);

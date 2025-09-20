@@ -52,7 +52,7 @@ export const liquidityViewAtom = atom<LiquidityView>('add');
 
 // Success/error messages
 export interface NotificationState {
-  type: 'success' | 'error' | 'info';
+  type: 'success' | 'error' | 'info' | 'warning';
   message: string;
   txHash?: string;
 }

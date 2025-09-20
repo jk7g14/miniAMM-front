@@ -72,7 +72,7 @@ export function MintToken() {
           }
 
           // Get the signer from wallet provider
-          const signer = await contracts.walletProvider.getSigner();
+          const signer = await contracts.walletProvider!.getSigner();
           console.log('🔑 Using signer:', await signer.getAddress());
 
           // Connect contract with signer for write operations

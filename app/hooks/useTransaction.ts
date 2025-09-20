@@ -35,9 +35,9 @@ export function useTransaction(type: TransactionType) {
   const { refetch: refetchPool } = usePoolState();
 
   const execute = async (
-    transactionFn: () => Promise<any>,
+    transactionFn: () => Promise<unknown>,
     options?: {
-      onSuccess?: (receipt: any) => void;
+      onSuccess?: (receipt: unknown) => void;
       successMessage?: string;
       refetchBalances?: boolean;
       refetchPool?: boolean;
@@ -51,17 +51,20 @@ export function useTransaction(type: TransactionType) {
       const tx = await transactionFn();
 
       // Set transaction hash
-      setLoading({ isLoading: true, hash: tx.hash });
+      const txHash = (tx as { hash?: string }).hash;
+      setLoading({ isLoading: true, hash: txHash });
 
       // Show pending notification
       setNotification({
         type: 'info',
         message: 'Transaction pending...',
-        txHash: tx.hash,
+        txHash: txHash,
       });
 
       // Wait for confirmation
-      const receipt = await waitForTransaction(tx);
+      const receipt = await waitForTransaction(
+        tx as unknown as import('@/app/utils/transactions').TransactionResult
+      );
 
       // Clear loading state
       setLoading({ isLoading: false });
@@ -70,7 +73,7 @@ export function useTransaction(type: TransactionType) {
       setNotification({
         type: 'success',
         message: options?.successMessage || 'Transaction successful!',
-        txHash: receipt.transactionHash,
+        txHash: (receipt as { transactionHash?: string }).transactionHash,
       });
 
       // Auto-dismiss notification

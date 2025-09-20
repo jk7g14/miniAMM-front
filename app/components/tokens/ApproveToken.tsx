@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAtom } from 'jotai';
-import { parseEther } from 'viem';
+// Removed unused import
 import { Card } from '../common/Card';
 import { Button } from '../common/Button';
 import { useContracts, useTransaction } from '@/app/hooks';
@@ -62,7 +62,7 @@ export function ApproveToken() {
           console.log('📤 Sending approve transaction...');
 
           // Get the signer from wallet provider
-          const signer = await contracts.walletProvider.getSigner();
+          const signer = await contracts.walletProvider!.getSigner();
           console.log('🔑 Using signer:', await signer.getAddress());
 
           // Connect contract with signer for write operations
@@ -212,8 +212,8 @@ export function ApproveToken() {
             </p>
             <p className="text-blue-700">
               Approvals allow MiniAMM to transfer your tokens when you swap or
-              add liquidity. "Unlimited" approval means you won't need to
-              approve again for future transactions.
+              add liquidity. &quot;Unlimited&quot; approval means you won&apos;t
+              need to approve again for future transactions.
             </p>
           </div>
 

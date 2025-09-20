@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { useAtom } from 'jotai';
 import { Card } from '../common/Card';
 import { Button } from '../common/Button';
@@ -22,7 +22,7 @@ import {
   parseTokenAmount,
   formatPercentage,
 } from '@/app/utils/format';
-import { calculateMinimumAmount, getDeadline } from '@/app/utils/transactions';
+// Removed unused imports
 
 export function SwapInterface() {
   const contracts = useContracts();
@@ -98,7 +98,7 @@ export function SwapInterface() {
     await execute(
       async () => {
         // Get the signer from wallet provider
-        const signer = await contracts.walletProvider.getSigner();
+        const signer = await contracts.walletProvider!.getSigner();
 
         // Connect contract with signer for write operations
         const ammWithSigner = contracts.amm.connect(signer);
@@ -257,10 +257,7 @@ export function SwapInterface() {
             <div className="flex justify-between">
               <span className="text-neutral-dark/60">Minimum Received</span>
               <span>
-                {formatTokenAmount(
-                  calculateMinimumAmount(outputAmount, slippage),
-                  outputToken.decimals
-                )}{' '}
+                {formatTokenAmount(outputAmount, outputToken.decimals)}{' '}
                 {outputToken.symbol}
               </span>
             </div>

@@ -154,9 +154,9 @@ export function useBalances() {
       if (error instanceof Error) {
         console.error('Error details:', {
           message: error.message,
-          code: (error as any).code,
-          data: (error as any).data,
-          reason: (error as any).reason,
+          code: (error as unknown as { code?: string }).code,
+          data: (error as unknown as { data?: unknown }).data,
+          reason: (error as unknown as { reason?: string }).reason,
         });
       }
     }

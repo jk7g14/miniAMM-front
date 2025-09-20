@@ -20,7 +20,7 @@ import {
   parseTokenAmount,
   formatPercentage,
 } from '@/app/utils/format';
-import { calculateMinimumAmount, getDeadline } from '@/app/utils/transactions';
+// Removed unused imports
 
 export function RemoveLiquidity() {
   const contracts = useContracts();
@@ -29,7 +29,7 @@ export function RemoveLiquidity() {
   const [lpTokenMetadata] = useAtom(lpTokenMetadataAtom);
   const [walletBalances] = useAtom(walletBalancesAtom);
   const [poolState] = useAtom(poolStateAtom);
-  const slippage = 0.5; // Fixed 0.5% slippage
+  // const slippage = 0.5; // Fixed 0.5% slippage - unused for now
   const [userPoolShare] = useAtom(userPoolShareAtom);
 
   const [lpInput, setLpInput] = useAtom(lpTokenInputAmountAtom);
@@ -79,7 +79,7 @@ export function RemoveLiquidity() {
         console.log('📤 Sending remove liquidity transaction...');
 
         // Get the signer from wallet provider
-        const signer = await contracts.walletProvider.getSigner();
+        const signer = await contracts.walletProvider!.getSigner();
         console.log('🔑 Using signer:', await signer.getAddress());
 
         // Connect contract with signer for write operations

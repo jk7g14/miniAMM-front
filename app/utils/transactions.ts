@@ -25,7 +25,7 @@ export async function waitForTransaction(
   });
 
   // Create a more informative timeout
-  let timeoutId: NodeJS.Timeout;
+  let timeoutId: NodeJS.Timeout | undefined;
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => {
       console.error(
@@ -50,7 +50,9 @@ export async function waitForTransaction(
     console.log('⏳ Still waiting for transaction...', {
       hash: tx.hash,
       elapsed: `${Math.floor(
-        (Date.now() - (tx as any).timestamp || Date.now()) / 1000
+        (Date.now() -
+          ((tx as unknown as { timestamp?: number }).timestamp || Date.now())) /
+          1000
       )}s`,
     });
   }, 15000); // Log every 15 seconds
@@ -63,7 +65,7 @@ export async function waitForTransaction(
 
     // Clear the status interval and timeout
     clearInterval(statusInterval);
-    clearTimeout(timeoutId);
+    if (timeoutId) clearTimeout(timeoutId);
 
     console.log('✅ Transaction confirmed:', {
       hash: receipt.hash,
@@ -83,7 +85,7 @@ export async function waitForTransaction(
   } catch (error) {
     // Clear the status interval and timeout on error
     clearInterval(statusInterval);
-    clearTimeout(timeoutId);
+    if (timeoutId) clearTimeout(timeoutId);
 
     console.error('❌ Transaction error:', error);
 
@@ -275,18 +277,18 @@ export function formatTxHash(hash: string): string {
 
 // Check if error is user rejection
 export function isUserRejection(error: unknown): boolean {
-  return (
+  return Boolean(
     (isErrorWithCode(error) &&
       (error.code === 'ACTION_REJECTED' || error.code === 4001)) ||
-    (isErrorWithMessage(error) && error.message.includes('user rejected')) ||
-    (isErrorWithMessage(error) &&
-      error.message.includes('User rejected the request')) ||
-    (isErrorWithMessage(error) &&
-      error.message.includes('User denied request signature')) ||
-    (error &&
-      typeof error === 'object' &&
-      'name' in error &&
-      error.name === 'UserRejectedRequestError')
+      (isErrorWithMessage(error) && error.message.includes('user rejected')) ||
+      (isErrorWithMessage(error) &&
+        error.message.includes('User rejected the request')) ||
+      (isErrorWithMessage(error) &&
+        error.message.includes('User denied request signature')) ||
+      (error &&
+        typeof error === 'object' &&
+        'name' in error &&
+        error.name === 'UserRejectedRequestError')
   );
 }
 

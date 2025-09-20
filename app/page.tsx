@@ -51,7 +51,7 @@ export default function Home() {
         {!isConnected && (
           // Pre-connect landing page with live data
           <Container className="py-8">
-            <div className="text-center mb-8">
+            <div className="flex flex-col items-center gap-1 text-center">
               <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 Welcome to MiniAMM
               </h1>
@@ -59,12 +59,7 @@ export default function Home() {
                 A minimal Uniswap V2 style AMM on Flare Coston2 testnet. Swap
                 tokens, provide liquidity, and earn from trading fees.
               </p>
-              <div className="flex flex-col gap-4 items-center mb-8">
-                <p className="text-sm text-neutral-dark/50">
-                  Connect your wallet using the button in the header to start
-                  trading
-                </p>
-              </div>
+              <div className="flex flex-col gap-4 items-center mb-8"></div>
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
